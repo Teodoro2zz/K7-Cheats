@@ -72,19 +72,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!name || !email) {
       notification.textContent = 'Por favor, preencha todos os campos.';
       notification.style.display = 'block';
+      notification.classList.add('show');
       return;
     }
 
     if (registeredUsers.some(user => user.email === email)) {
       notification.textContent = 'Este email já está cadastrado.';
       notification.style.display = 'block';
+      notification.classList.add('show');
       return;
     }
 
     registeredUsers.push({ name, email });
     notification.textContent = 'Cadastro realizado com sucesso!';
     notification.style.display = 'block';
+    notification.classList.add('show');
     registrationForm.reset();
+
+    // After 3 seconds, hide notification and switch to login modal
+    setTimeout(() => {
+      notification.classList.remove('show');
+      notification.style.display = 'none';
+      registrationModal.style.display = 'none';
+      loginModal.style.display = 'block';
+    }, 3000);
   });
 
   // Restore logged-in user from localStorage on page load
