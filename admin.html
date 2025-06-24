@@ -1,0 +1,82 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Área do Administrador</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .admin-container {
+      max-width: 900px;
+      margin: 4rem auto;
+      background: #1e1e1e;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 15px rgba(176, 0, 32, 0.5);
+      color: #fff;
+    }
+    .admin-container h1 {
+      color: #b00020;
+      text-shadow: 0 0 8px #b00020;
+      margin-bottom: 1.5rem;
+    }
+    .admin-section {
+      margin-bottom: 2rem;
+    }
+    .admin-section h2 {
+      color: #b00020;
+      border-bottom: 1px solid #b00020;
+      margin-bottom: 1rem;
+    }
+    .admin-list {
+      background: #111;
+      border-radius: 8px;
+      padding: 1rem;
+      list-style: none;
+    }
+    .admin-list li {
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h1>👑 Área do Administrador</h1>
+
+    <div class="admin-section">
+      <h2>📋 Usuários Registrados</h2>
+      <ul id="adminUserList" class="admin-list"></ul>
+    </div>
+
+    <div class="admin-section">
+      <h2>🛒 Histórico de Cliques em Produtos</h2>
+      <ul id="clickLogList" class="admin-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser || currentUser.name.toLowerCase() !== 'K7 Cheats') {
+      alert('Acesso negado. Esta página é restrita ao administrador.');
+      window.location.href = 'index.html';
+    }
+
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const adminUserList = document.getElementById('adminUserList');
+    users.forEach(u => {
+      const li = document.createElement('li');
+      li.textContent = `${u.name} (${u.email}) - IP: ${u.ip || 'Desconhecido'}`;
+      adminUserList.appendChild(li);
+    });
+
+    const clickLog = JSON.parse(localStorage.getItem('clickLog')) || [];
+    const clickLogList = document.getElementById('clickLogList');
+    clickLog.forEach((entry, index) => {
+      const li = document.createElement('li');
+      li.textContent = `${index + 1}. ${entry.product} clicado em ${entry.date}`;
+      clickLogList.appendChild(li);
+    });
+  </script>
+</body>
+</html>
